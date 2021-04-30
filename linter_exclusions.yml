@@ -1,0 +1,5 @@
+rest:
+  parameters:
+    skip_authorization_header:
+      rule_exclusions:
+      - option_length_too_long

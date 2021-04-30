@@ -1,0 +1,82 @@
+name: Create Pre-release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Create new Pre-release
+    # if: "!contains(join(github.event.commits.*.message), '+norelease')"
+    if: "contains(join(github.event.commits.*.message), '+release')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      # - name: Setup .NET Core
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: '3.1.406'
+
+      # - name: Setup GitVersion
+      #   uses: gittools/actions/gitversion/setup@v0.9.9
+      #   with:
+      #     versionSpec: '5.x'
+
+      # - name: Execute GitVersion
+      #   id: gitversion
+      #   uses: gittools/actions/gitversion/execute@v0.9.9
+      #   with:
+      #     useConfigFile: true
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '12'
+
+      - name: Get CLI Version
+        id: cli_version
+        run: python ./tools/cli-version.py
+
+      - name: Build CLI
+        run: bash ./tools/build-cli.sh
+
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: 'v${{ steps.gitversion.outputs.majorMinorPatch }}'
+      #     release_name: 'v${{ steps.gitversion.outputs.majorMinorPatch }}-pre'
+      #     body: 'Pre-release build.'
+      #     prerelease: true
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ steps.cli_version.outputs.version }}'
+          release_name: 'v${{ steps.cli_version.outputs.version }}-pre'
+          body: 'Pre-release build.'
+          prerelease: true
+
+      - name: Upload Release Asset - CLI WHL
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/util-${{ steps.cli_version.outputs.version }}-py2.py3-none-any.whl
+          asset_name: util-${{ steps.cli_version.outputs.version }}-py2.py3-none-any.whl
+          asset_content_type: application/zip
