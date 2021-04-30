@@ -22,6 +22,10 @@ def resource_client_factory(cli_ctx, **_):
 def resource_lock_client_factory(cli_ctx, **_):
     return get_mgmt_service_client(cli_ctx, ResourceType.MGMT_RESOURCE_LOCKS)
 
+
+def keyvault_client_factory(cli_ctx, **_):
+    return get_mgmt_service_client(cli_ctx, ResourceType.MGMT_KEYVAULT)
+
 # def cosmosdb_client_factory(cli_ctx, **_):
 #     from azure.mgmt.cosmosdb import CosmosDBManagementClient
 #     return get_mgmt_service_client(cli_ctx, CosmosDBManagementClient)

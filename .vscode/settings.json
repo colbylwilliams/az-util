@@ -17,5 +17,6 @@
         "env/pyvenv.cfg": true,
     },
     "restructuredtext.languageServer.disabled": true,
-    "restructuredtext.confPath": ""
+    "restructuredtext.confPath": "",
+    "restructuredtext.linter.disabled": true
 }
