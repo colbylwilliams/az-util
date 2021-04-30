@@ -67,9 +67,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v${{ steps.cli_version.outputs.version }}'
-          release_name: 'v${{ steps.cli_version.outputs.version }}-pre'
+          release_name: 'v${{ steps.cli_version.outputs.version }}'
           body: 'Pre-release build.'
-          prerelease: true
 
       - name: Upload Release Asset - CLI WHL
         uses: actions/upload-release-asset@v1
