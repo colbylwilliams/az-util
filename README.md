@@ -28,6 +28,8 @@ az util update --pre
 
 This extension adds the following commands.  Use `az util -h` for more information.
 
+---
+
 ### util group
 
 Utilities for managing resource groups.
@@ -49,6 +51,8 @@ Delete all resource groups with names starting with test skipping test123.
 ```sh
 az util group delete --prefix test --skip test123
 ```
+
+---
 
 ### util keyvault
 
