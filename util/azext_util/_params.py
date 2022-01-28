@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See License.txt in the project root for license information.
 # --------------------------------------------------------------------------------------------
 
-from ._validators import util_source_version_validator
+from ._validators import prefix_validator, util_source_version_validator
 
 
 def load_arguments(self, _):
@@ -16,7 +16,8 @@ def load_arguments(self, _):
 
     with self.argument_context('util group delete') as c:
         c.argument('prefix', options_list=['--prefix', '-p'],
-                   help='Resource group name prefix (case insensitive).')
+                   help='Resource group name prefix (case insensitive).',
+                   validator=prefix_validator)
         c.argument('skip', options_list=['--skip', '-s'], nargs='*',
                    help='Space-separated resource groups to skip.')
 

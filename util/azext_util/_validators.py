@@ -12,6 +12,11 @@ logger = get_logger(__name__)
 # pylint: disable=unused-argument, protected-access, import-outside-toplevel
 
 
+def prefix_validator(cmd, ns):
+    if not ns.prefix:
+        raise CLIError('--prefix|-p must be a valid string')
+
+
 def util_source_version_validator(cmd, ns):
     if ns.version:
         if ns.prerelease:
@@ -27,7 +32,7 @@ def util_source_version_validator(cmd, ns):
         from ._utils import github_release_version_exists
 
         if not github_release_version_exists(ns.version):
-            raise CLIError('--version/-v {} does not exist'.format(ns.version))
+            raise CLIError(f'--version/-v {ns.version} does not exist')
 
 
 def _is_valid_url(url):
