@@ -34,7 +34,7 @@ pushd $tcdir > /dev/null
     echo ""
 
     echo "Building util extension"
-    azdev extension build util
+    azdev extension build util --dist-dir ./release_assets
     echo ""
 
     echo "Deactivating virtual environment"
