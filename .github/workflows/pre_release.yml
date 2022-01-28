@@ -42,7 +42,7 @@ jobs:
       # This must be run LAST - AFTER everything is added to release_assets
       - name: Prepare Release Assets
         id: prepare_assets
-        run: python ./scripts/prepare-assets.py
+        run: python ./tools/prepare-assets.py
 
       - name: Create Pre-release
         id: publish_assets
