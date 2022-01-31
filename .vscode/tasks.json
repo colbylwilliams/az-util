@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cli: setup azdev",
+            "type": "shell",
+            "command": "source env/bin/activate; azdev setup -r ${workspaceFolder} -e util",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "showReuseMessage": false,
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "cli: create venv",
+                "cli: install azdev"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "cli: install azdev",
+            "type": "shell",
+            "command": "source env/bin/activate; pip3 install azdev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "showReuseMessage": false,
+            }
+        },
+        {
+            "label": "cli: create venv",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "-m",
+                "venv",
+                "env"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "showReuseMessage": false,
+            }
+        },
+        {
+            "label": "cli: delete env",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-r",
+                "env"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "showReuseMessage": false,
+            },
+            "problemMatcher": []
+        }
+    ]
+}
