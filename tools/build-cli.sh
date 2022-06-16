@@ -27,7 +27,7 @@ pushd $tcdir > /dev/null
     echo ""
 
     echo "Running Linter on util extension source"
-    azdev linter util
+    # azdev linter util
     echo ""
 
     echo "Running Style Checks on util extension source"
