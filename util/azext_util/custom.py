@@ -62,7 +62,7 @@ def group_delete(cmd, prefix, skip=None, force=False, yes=False):
 
     if not yes:
         logger.warning('\nWARNING: The following resource groups will be permanently deleted:')
-        print('\n- {}'.format('\n- '.join([group.name for group in to_delete])))
+        print('\n- {}'.format('\n- '.join([group.name for group in to_delete])))  # pylint: disable=consider-using-f-string
 
     if not yes and not prompt_y_n('\nAre you sure you want to continue?', default='n'):
         return None
@@ -108,7 +108,7 @@ def keyvault_purge(cmd, skip=None, yes=False):
 
     if not yes:
         logger.warning('\nWARNING: The following key vaults will be permanently deleted:')
-        print('\n- {}'.format('\n- '.join([vault.name for vault in to_purge])))
+        print('\n- {}'.format('\n- '.join([vault.name for vault in to_purge])))  # pylint: disable=consider-using-f-string
 
     if not yes and not prompt_y_n('\nAre you sure you want to continue?', default='n'):
         return None

@@ -28,7 +28,7 @@ jobs:
 
       # Everything added to release_assets will be published as an asset on the release
       - name: Create Assets Directory
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: await io.mkdirP('release_assets')
 
@@ -46,24 +46,23 @@ jobs:
 
       - name: Create Pre-release
         id: publish_assets
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: |
             const fs = require('fs');
 
             const assets = JSON.parse('${{steps.prepare_assets.outputs.assets}}');
 
-            const releaseResult = await github.repos.createRelease({
+            const releaseResult = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: 'v${{ steps.cli_version.outputs.version }}',
               name: 'v${{ steps.cli_version.outputs.version }}',
-              body: 'Pre-release build.'
             });
 
             const release = releaseResult.data;
 
-            assets.forEach(async a => await github.repos.uploadReleaseAsset({
+            assets.forEach(async a => await github.rest.repos.uploadReleaseAsset({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: release.id,

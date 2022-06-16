@@ -7,7 +7,7 @@ Microsoft Azure CLI Utility 'util' Extension adds useful "utilities" for common 
 To install the Azure CLI Utility extension, simply run the following command:
 
 ```sh
-az extension add --source https://github.com/colbylwilliams/az-util/releases/latest/download/util-0.1.2-py2.py3-none-any.whl -y
+az extension add --source https://github.com/colbylwilliams/az-util/releases/latest/download/util-0.1.3-py2.py3-none-any.whl -y
 ```
 
 ### Update
