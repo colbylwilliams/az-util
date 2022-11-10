@@ -2,14 +2,13 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
 # --------------------------------------------------------------------------------------------
-# pylint: disable=unused-argument, protected-access, too-many-lines, import-outside-toplevel
+# pylint: disable=unused-argument, protected-access, too-many-lines, import-outside-toplevel, logging-fstring-interpolation
 
 from knack.log import get_logger
 from knack.prompting import prompt_y_n
 from knack.util import CLIError
 
-from ._client_factory import (keyvault_client_factory, resource_client_factory,
-                              resource_lock_client_factory)
+from ._client_factory import (keyvault_client_factory, resource_client_factory, resource_lock_client_factory)
 
 logger = get_logger(__name__)
 
@@ -50,14 +49,14 @@ def group_delete(cmd, prefix, skip=None, force=False, yes=False):
     for group in [group for group in groups if group.name.startswith(prefix)]:
 
         if skip and group.name in skip:
-            logger.info('skipping resource group: %s', group.name)
+            logger.info(f'skipping resource group: {group.name}')
             skipped.append(group)
             continue
 
         to_delete.append(group)
 
     if not to_delete:
-        logger.info('no resource groups to delete match prefix %s', prefix)
+        logger.info(f'no resource groups to delete match prefix {prefix}')
         return deleted
 
     if not yes:
@@ -74,10 +73,10 @@ def group_delete(cmd, prefix, skip=None, force=False, yes=False):
             locks = list(locks)
 
             for lock in locks:
-                logger.info('deleting lock: %s', lock.name)
+                logger.info(f'deleting lock: {lock.name}')
                 lock_client.management_locks.delete_at_resource_group_level(group.name, lock.name)
 
-        logger.info('deleting resource group: %s', group.name)
+        logger.info(f'deleting resource group: {group.name}')
         client.resource_groups.begin_delete(group.name)
 
         deleted.append(group)
@@ -97,7 +96,11 @@ def keyvault_purge(cmd, skip=None, yes=False):
     for vault in vaults:
 
         if skip and vault.name in skip:
-            logger.info('skipping keyvault: %s', vault.name)
+            logger.info(f'skipping keyvault because it matches skip pattern: {vault.name}')
+            continue
+
+        if vault.properties.purge_protection_enabled is True:
+            logger.info(f'skipping keyvault because purge protection is enabled: {vault.name}')
             continue
 
         to_purge.append(vault)
@@ -115,7 +118,7 @@ def keyvault_purge(cmd, skip=None, yes=False):
 
     for vault in to_purge:
 
-        logger.info('purging keyvault: %s', vault.name)
+        logger.info(f'purging keyvault: {vault.name}')
         client.begin_purge_deleted(vault.name, vault.properties.location)
 
         purged.append(vault)

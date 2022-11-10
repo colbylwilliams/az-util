@@ -3,6 +3,10 @@
 Release History
 ===============
 
+0.1.4
+++++++
++ Bug fixes and minor improvements.
+
 0.1.3
 ++++++
 + Add confirm prompt on delete and purge
