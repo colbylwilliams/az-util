@@ -3,6 +3,8 @@ name: Create Pre-release
 on:
   push:
     branches: [main]
+    paths:
+      - 'util/setup.py'
 
 jobs:
   build:
